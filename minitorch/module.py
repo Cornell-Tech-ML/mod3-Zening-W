@@ -31,19 +31,13 @@ class Module:
 
     def train(self) -> None:
         """Set the `training` flag of this and descendent to true."""
-        # Set the training flag to True for the current module
         self.training = True
-
-        # Recursively set the training flag to True for all child modules
         for module in self.modules():
             module.train()
 
     def eval(self) -> None:
         """Set the `training` flag of this and descendent to false."""
-        # Set the training flag to False for the current module
         self.training = False
-
-        # Recursively set the training flag to False for all child modules
         for module in self.modules():
             module.eval()
 
@@ -55,33 +49,16 @@ class Module:
             The name and `Parameter` of each ancestor parameter.
 
         """
-        # Delcare an empty sequence to store the results
-        result = []
-
-        # Iterate over all parameters in the current module
-        for name, param in self._parameters.items():
-            result.append((name, param))
-
-        # Iterate over all child modules to find their parameters
-        for module_name, module in self._modules.items():
-            # Recursively call named_parameters on each child module
-            for sub_param_name, sub_param in module.named_parameters():
-                result.append((f"{module_name}.{sub_param_name}", sub_param))
-
-        # Return the collected parameters and their names for this module and its descendents
-        return result
+        named_params = list(self._parameters.items())
+        for name, module in self._modules.items():
+            named_params.extend(
+                [(f"{name}.{n}", p) for n, p in module.named_parameters()]
+            )
+        return named_params
 
     def parameters(self) -> Sequence[Parameter]:
         """Enumerate over all the parameters of this module and its descendents."""
-        # Delcare an empty sequence to store the results
-        result = []
-
-        # Call named_parameters() to get all parameters and their names
-        for _, param in self.named_parameters():
-            result.append(param)  # Append only the parameter to the result sequence
-
-        # Return the collected parameters for this module and its descendents
-        return result
+        return [p for _, p in self.named_parameters()]
 
     def add_parameter(self, k: str, v: Any) -> Parameter:
         """Manually add a parameter. Useful helper for scalar parameters.
@@ -117,18 +94,7 @@ class Module:
         return None
 
     def __call__(self, *args: Any, **kwargs: Any) -> Any:
-        """Makes the module callable by calling the internal `forward`method.
-
-        Args:
-        ----
-            *args: Variable length argument list.
-            **kwargs: Arbitrary keyword arguments.
-
-        Returns:
-        -------
-            The output of the internal `forward` method.
-
-        """
+        """Call the forward method of the module."""
         return self.forward(*args, **kwargs)
 
     def __repr__(self) -> str:
