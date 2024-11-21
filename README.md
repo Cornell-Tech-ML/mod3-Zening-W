@@ -31,7 +31,7 @@ The files that will be synced are:
 
         minitorch/tensor_data.py minitorch/tensor_functions.py minitorch/tensor_ops.py minitorch/operators.py minitorch/scalar.py minitorch/scalar_functions.py minitorch/module.py minitorch/autodiff.py minitorch/module.py project/run_manual.py project/run_scalar.py project/run_tensor.py minitorch/operators.py minitorch/module.py minitorch/autodiff.py minitorch/tensor.py minitorch/datasets.py minitorch/testing.py minitorch/optim.py
 
-#Task 3.1&3.2:
+# Task 3.1&3.2:
 
 (.venv) PS C:\Users\NING0\mle\mod3-Zening-W> python project/parallel_check.py
 MAP
@@ -449,7 +449,7 @@ Allocation hoisting:
 No allocation hoisting found
 None
 
-#Task 3.4
+# Task 3.4
 
 Timing:
 /usr/local/lib/python3.12/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 2 will likely result in GPU under-utilization due to low occupancy.
@@ -489,8 +489,8 @@ Size: 1024
     gpu: 0.86956
 <img src="output.png">
 
-#Task 3.5
-##CPU
+# Task 3.5
+## CPU
 split:!cd $DIR; PYTHONPATH=/content/$DIR python3.12 project/run_fast_tensor.py --BACKEND cpu --HIDDEN 100 --DATASET split --RATE 0.05
 Epoch  0  loss  4.878329131670176 correct 36
 Time per epoch: 18.5425 seconds
@@ -900,8 +900,7 @@ Time per epoch: 0.2198 seconds
 Epoch  490  loss  0.002325076386502473 correct 50
 Time per epoch: 0.2097 seconds
 
-##GPU
-
+## GPU
 
 split:!cd $DIR; PYTHONPATH=/content/$DIR python3.12 project/run_fast_tensor.py --BACKEND gpu --HIDDEN 100 --DATASET split --RATE 0.05
 /usr/local/lib/python3.12/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 1 will likely result in GPU under-utilization due to low occupancy.
