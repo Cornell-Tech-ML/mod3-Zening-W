@@ -507,53 +507,38 @@ def _tensor_matrix_multiply(
     # TODO: Implement for Task 3.4.
 
     # Initialize the accumulator
-    c_value = 0.0
+    t = 0
+    size = a_shape[-1]
+    for s in range(0, size, BLOCK_DIM):
+        """
+        Each thread reads the relative position of `a` and `b` corresponding to its coordinates
+        within the block and writes the values to the shared memory (`a_shared` and `b_shared`).
 
-    # Number of tiles to iterate over
-    k_tiles = (a_shape[-1] + BLOCK_DIM - 1) // BLOCK_DIM
+        For example, for a thread at position (0, 0) in the second block, it reads `a(0:32, 32:64)`
+        (as the second block corresponds to that section of `a`) and stores the value at (0, 0) in `a_shared`.
+        """
+        if i < a_shape[1] and (pj + s) < a_shape[2]:
+            a_position = (
+                batch * a_batch_stride + i * a_strides[-2] + (pj + s) * a_strides[-1]
+            )
+            a_shared[pi, pj] = a_storage[a_position]
 
-    for k in range(k_tiles):
-        # Load a tile from a into shared memory
-        a_row = i
-        a_col = k * BLOCK_DIM + pj
-        if a_row < a_shape[-2] and a_col < a_shape[-1]:
-            a_shared[pi, pj] = a_storage[
-                batch * a_strides[0] +
-                a_row * a_strides[-2] +
-                a_col * a_strides[-1]
-            ]
-        else:
-            a_shared[pi, pj] = 0.0
+        if (pi + s) < b_shape[1] and j < b_shape[2]:
+            b_position = (
+                batch * b_batch_stride + (pi + s) * b_strides[-2] + j * b_strides[-1]
+            )
+            b_shared[pi, pj] = b_storage[b_position]
 
-        # Load a tile from b into shared memory
-        b_row = k * BLOCK_DIM + pi
-        b_col = j
-        if b_row < b_shape[-2] and b_col < b_shape[-1]:
-            b_shared[pi, pj] = b_storage[
-                batch * b_strides[0] +
-                b_row * b_strides[-2] +
-                b_col * b_strides[-1]
-            ]
-        else:
-            b_shared[pi, pj] = 0.0
-
-        # Synchronize threads to ensure data is loaded
+        "Synchronize shared memory to ensure all threads have updated `a_shared` and `b_shared`."
         cuda.syncthreads()
+        "Compute the partial matrix multiplication for the current block and accumulate it into `t`."
+        for k in range(min(BLOCK_DIM, size - s)):
+            t += a_shared[pi, k] * b_shared[k, pj]
 
-        # Compute the partial dot product
-        for kk in range(BLOCK_DIM):
-            c_value += a_shared[pi, kk] * b_shared[kk, pj]
-
-        # Synchronize threads before loading the next tile
-        cuda.syncthreads()
-
-    # Write the result to global memory
-    if i < out_shape[-2] and j < out_shape[-1]:
-        out[
-            batch * out_strides[0] +
-            i * out_strides[-2] +
-            j * out_strides[-1]
-        ] = c_value
+    "After computing the accumulated result, write `t` to the global `out` storage at the thread's position."
+    if i < out_shape[1] and j < out_shape[2]:
+        out_position = batch * out_strides[0] + i * out_strides[1] + j * out_strides[2]
+        out[out_position] = t
 
 
 tensor_matrix_multiply = jit(_tensor_matrix_multiply)
