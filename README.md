@@ -35,47 +35,51 @@ Task 3.1&3.2:
 
 (.venv) PS C:\Users\NING0\mle\mod3-Zening-W> python project/parallel_check.py
 MAP
+(.venv) PS C:\Users\NING0\mle\mod3-Zening-W> python project/parallel_check.py
+MAP
 
 ================================================================================
  Parallel Accelerator Optimizing:  Function tensor_map.<locals>._map,
-C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (163)
+C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (164)
 ================================================================================
 
 
-Parallel loop listing for  Function tensor_map.<locals>._map, C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (163)
------------------------------------------------------------------------------------------------|loop #ID
-    def _map(                                                                                  |
-        out: Storage,                                                                          |
-        out_shape: Shape,                                                                      |
-        out_strides: Strides,                                                                  |
-        in_storage: Storage,                                                                   |
-        in_shape: Shape,                                                                       |
-        in_strides: Strides,                                                                   |
-    ) -> None:                                                                                 |
-        # TODO: Implement for Task 3.1.                                                        |
-        if np.array_equal(out_shape, in_shape) and np.array_equal(out_strides, in_strides):    |
-            for i in prange(len(out)):---------------------------------------------------------| #2
-                out[i] = fn(in_storage[i])                                                     |
-            return                                                                             |
-        # Calculate the total size of the tensor                                               |
-        size = len(out)                                                                        |
-                                                                                               |
-        # Parallelize the main loop using prange                                               |
-        for i in prange(size):-----------------------------------------------------------------| #3
-            # Convert linear index i to tensor index                                           |
-            out_index = np.zeros(MAX_DIMS, np.int32)-------------------------------------------| #0
-            to_index(i, out_shape, out_index)                                                  |
-                                                                                               |
-            # Map output index to input index (for broadcasting)                               |
-            in_index = np.zeros(MAX_DIMS, np.int32)--------------------------------------------| #1
-            broadcast_index(out_index, out_shape, in_shape, in_index)                          |
-                                                                                               |
-            # Calculate positions in storage                                                   |
-            out_pos = index_to_position(out_index, out_strides)                                |
-            in_pos = index_to_position(in_index, in_strides)                                   |
-                                                                                               |
-            # Apply the function and store result                                              |
-            out[out_pos] = fn(in_storage[in_pos])                                              |
+Parallel loop listing for  Function tensor_map.<locals>._map, C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (164)
+-------------------------------------------------------------------------|loop #ID
+    def _map(                                                            |
+        out: Storage,                                                    |
+        out_shape: Shape,                                                |
+        out_strides: Strides,                                            |
+        in_storage: Storage,                                             |
+        in_shape: Shape,                                                 |
+        in_strides: Strides,                                             |
+    ) -> None:                                                           |
+        # TODO: Implement for Task 3.1.                                  |
+        if np.array_equal(out_shape, in_shape) and np.array_equal(       |
+            out_strides, in_strides                                      |
+        ):                                                               |
+            for i in prange(len(out)):-----------------------------------| #2
+                out[i] = fn(in_storage[i])                               |
+            return                                                       |
+        # Calculate the total size of the tensor                         |
+        size = len(out)                                                  |
+                                                                         |
+        # Parallelize the main loop using prange                         |
+        for i in prange(size):-------------------------------------------| #3
+            # Convert linear index i to tensor index                     |
+            out_index = np.zeros(MAX_DIMS, np.int32)---------------------| #0
+            to_index(i, out_shape, out_index)                            |
+                                                                         |
+            # Map output index to input index (for broadcasting)         |
+            in_index = np.zeros(MAX_DIMS, np.int32)----------------------| #1
+            broadcast_index(out_index, out_shape, in_shape, in_index)    |
+                                                                         |
+            # Calculate positions in storage                             |
+            out_pos = index_to_position(out_index, out_strides)          |
+            in_pos = index_to_position(in_index, in_strides)             |
+                                                                         |
+            # Apply the function and store result                        |
+            out[out_pos] = fn(in_storage[in_pos])                        |
 --------------------------------- Fusing loops ---------------------------------
 Attempting fusion of parallel loops (combines loops with similar properties)...
 Following the attempted fusion of parallel for-loops there are 3 parallel for-
@@ -112,13 +116,13 @@ Parallel region 0 (loop #3) had 0 loop(s) fused and 2 loop(s) serialized as part
 ---------------------------Loop invariant code motion---------------------------
 Allocation hoisting:
 The memory allocation derived from the instruction at
-C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (186) is hoisted out of
+C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (189) is hoisted out of
 the parallel loop labelled #3 (it will be performed before the loop is executed
 and reused inside the loop):
    Allocation:: in_index = np.zeros(MAX_DIMS, np.int32)
     - numpy.empty() is used for the allocation.
 The memory allocation derived from the instruction at
-C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (182) is hoisted out of
+C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (185) is hoisted out of
 the parallel loop labelled #3 (it will be performed before the loop is executed
 and reused inside the loop):
    Allocation:: out_index = np.zeros(MAX_DIMS, np.int32)
@@ -128,11 +132,11 @@ ZIP
 
 ================================================================================
  Parallel Accelerator Optimizing:  Function tensor_zip.<locals>._zip,
-C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (222)
+C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (225)
 ================================================================================
 
 
-Parallel loop listing for  Function tensor_zip.<locals>._zip, C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (222)
+Parallel loop listing for  Function tensor_zip.<locals>._zip, C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (225)
 -----------------------------------------------------------------------------|loop #ID
     def _zip(                                                                |
         out: Storage,                                                        |
@@ -154,7 +158,7 @@ Parallel loop listing for  Function tensor_zip.<locals>._zip, C:\Users\NING0\mle
             for out_ord in prange(len(out)):---------------------------------| #7
                 out[out_ord] = fn(a_storage[out_ord], b_storage[out_ord])    |
             return                                                           |
-    # Calculate total size of output tensor                                  |
+        # Calculate total size of output tensor                              |
         size = len(out)                                                      |
                                                                              |
         # Parallelize the main loop using prange                             |
@@ -217,19 +221,19 @@ Parallel region 0 (loop #8) had 1 loop(s) fused and 2 loop(s) serialized as part
 ---------------------------Loop invariant code motion---------------------------
 Allocation hoisting:
 The memory allocation derived from the instruction at
-C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (248) is hoisted out of
+C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (251) is hoisted out of
 the parallel loop labelled #8 (it will be performed before the loop is executed
 and reused inside the loop):
    Allocation:: out_index = np.zeros(MAX_DIMS, np.int32)
     - numpy.empty() is used for the allocation.
 The memory allocation derived from the instruction at
-C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (252) is hoisted out of
+C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (255) is hoisted out of
 the parallel loop labelled #8 (it will be performed before the loop is executed
 and reused inside the loop):
    Allocation:: a_index = np.zeros(MAX_DIMS, np.int32)
     - numpy.empty() is used for the allocation.
 The memory allocation derived from the instruction at
-C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (253) is hoisted out of
+C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (256) is hoisted out of
 the parallel loop labelled #8 (it will be performed before the loop is executed
 and reused inside the loop):
    Allocation:: b_index = np.zeros(MAX_DIMS, np.int32)
@@ -239,11 +243,11 @@ REDUCE
 
 ================================================================================
  Parallel Accelerator Optimizing:  Function tensor_reduce.<locals>._reduce,
-C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (289)
+C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (292)
 ================================================================================
 
 
-Parallel loop listing for  Function tensor_reduce.<locals>._reduce, C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (289)
+Parallel loop listing for  Function tensor_reduce.<locals>._reduce, C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (292)
 ---------------------------------------------------------------------|loop #ID
     def _reduce(                                                     |
         out: Storage,                                                |
@@ -254,7 +258,7 @@ Parallel loop listing for  Function tensor_reduce.<locals>._reduce, C:\Users\NIN
         a_strides: Strides,                                          |
         reduce_dim: int,                                             |
     ) -> None:                                                       |
-   # Calculate the size of the output tensor                         |
+        # Calculate the size of the output tensor                    |
         size = len(out)                                              |
         # Get the size of the dimension being reduced                |
         reduce_size = a_shape[reduce_dim]                            |
@@ -314,13 +318,13 @@ part of the larger parallel loop (#11).
 ---------------------------Loop invariant code motion---------------------------
 Allocation hoisting:
 The memory allocation derived from the instruction at
-C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (306) is hoisted out of
+C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (309) is hoisted out of
 the parallel loop labelled #11 (it will be performed before the loop is executed
  and reused inside the loop):
    Allocation:: out_index = np.zeros(MAX_DIMS, np.int32)
     - numpy.empty() is used for the allocation.
 The memory allocation derived from the instruction at
-C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (310) is hoisted out of
+C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (313) is hoisted out of
 the parallel loop labelled #11 (it will be performed before the loop is executed
  and reused inside the loop):
    Allocation:: a_index = np.zeros(len(a_shape), np.int32)
@@ -330,96 +334,86 @@ MATRIX MULTIPLY
 
 ================================================================================
  Parallel Accelerator Optimizing:  Function _tensor_matrix_multiply,
-C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (326)
+C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (329)
 ================================================================================
 
 
-Parallel loop listing for  Function _tensor_matrix_multiply, C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (326)
--------------------------------------------------------------------|loop #ID
-def _tensor_matrix_multiply(                                       |
-    out: Storage,                                                  |
-    out_shape: Shape,                                              |
-    out_strides: Strides,                                          |
-    a_storage: Storage,                                            |
-    a_shape: Shape,                                                |
-    a_strides: Strides,                                            |
-    b_storage: Storage,                                            |
-    b_shape: Shape,                                                |
-    b_strides: Strides,                                            |
-) -> None:                                                         |
-    """NUMBA tensor matrix multiply function.                      |
-                                                                   |
-    Should work for any tensor shapes that broadcast as long as    |
-                                                                   |
-    ```                                                            |
-    assert a_shape[-1] == b_shape[-2]                              |
-    ```                                                            |
-                                                                   |
-    Optimizations:                                                 |
-                                                                   |
-    * Outer loop in parallel                                       |
-    * No index buffers or function calls                           |
-    * Inner loop should have no global writes, 1 multiply.         |
-                                                                   |
-                                                                   |
-    Args:                                                          |
-    ----                                                           |
-        out (Storage): storage for `out` tensor                    |
-        out_shape (Shape): shape for `out` tensor                  |
-        out_strides (Strides): strides for `out` tensor            |
-        a_storage (Storage): storage for `a` tensor                |
-        a_shape (Shape): shape for `a` tensor                      |
-        a_strides (Strides): strides for `a` tensor                |
-        b_storage (Storage): storage for `b` tensor                |
-        b_shape (Shape): shape for `b` tensor                      |
-        b_strides (Strides): strides for `b` tensor                |
-                                                                   |
-    Returns:                                                       |
-    -------                                                        |
-        None : Fills in `out`                                      |
-                                                                   |
-    """                                                            |
-    a_batch_stride = a_strides[0] if a_shape[0] > 1 else 0         |
-    b_batch_stride = b_strides[0] if b_shape[0] > 1 else 0         |
-                                                                   |
-# Get the dimensions                                               |
-    batch_size = out_shape[0]                                      |
-    rows = out_shape[1]                                            |
-    cols = out_shape[2]                                            |
-    reduce_dim = a_shape[2]                                        |
-                                                                   |
-    # Parallelize the outer loops                                  |
-    for batch in prange(batch_size):-------------------------------| #13
-        for i in prange(rows):-------------------------------------| #12
-            for j in range(cols):                                  |
-                # Calculate output position                        |
-                out_pos = (                                        |
-                    batch * out_strides[0] +                       |
-                    i * out_strides[1] +                           |
-                    j * out_strides[2]                             |
-                )                                                  |
-                                                                   |
-                # Initialize accumulator                           |
-                acc = 0.0                                          |
-                                                                   |
-                # Inner reduction loop                             |
-                for k in range(reduce_dim):                        |
-                    # Calculate positions in a and b tensors       |
-                    a_pos = (                                      |
-                        batch * a_batch_stride +                   |
-                        i * a_strides[1] +                         |
-                        k * a_strides[2]                           |
-                    )                                              |
-                    b_pos = (                                      |
-                        batch * b_batch_stride +                   |
-                        k * b_strides[1] +                         |
-                        j * b_strides[2]                           |
-                    )                                              |
-                    # Multiply and accumulate                      |
-                    acc += a_storage[a_pos] * b_storage[b_pos]     |
-                                                                   |
-                # Store final result                               |
-                out[out_pos] = acc                                 |
+Parallel loop listing for  Function _tensor_matrix_multiply, C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (329)
+--------------------------------------------------------------------------------------------|loop #ID
+def _tensor_matrix_multiply(                                                                |
+    out: Storage,                                                                           |
+    out_shape: Shape,                                                                       |
+    out_strides: Strides,                                                                   |
+    a_storage: Storage,                                                                     |
+    a_shape: Shape,                                                                         |
+    a_strides: Strides,                                                                     |
+    b_storage: Storage,                                                                     |
+    b_shape: Shape,                                                                         |
+    b_strides: Strides,                                                                     |
+) -> None:                                                                                  |
+    """NUMBA tensor matrix multiply function.                                               |
+                                                                                            |
+    Should work for any tensor shapes that broadcast as long as                             |
+                                                                                            |
+    ```                                                                                     |
+    assert a_shape[-1] == b_shape[-2]                                                       |
+    ```                                                                                     |
+                                                                                            |
+    Optimizations:                                                                          |
+                                                                                            |
+    * Outer loop in parallel                                                                |
+    * No index buffers or function calls                                                    |
+    * Inner loop should have no global writes, 1 multiply.                                  |
+                                                                                            |
+                                                                                            |
+    Args:                                                                                   |
+    ----                                                                                    |
+        out (Storage): storage for `out` tensor                                             |
+        out_shape (Shape): shape for `out` tensor                                           |
+        out_strides (Strides): strides for `out` tensor                                     |
+        a_storage (Storage): storage for `a` tensor                                         |
+        a_shape (Shape): shape for `a` tensor                                               |
+        a_strides (Strides): strides for `a` tensor                                         |
+        b_storage (Storage): storage for `b` tensor                                         |
+        b_shape (Shape): shape for `b` tensor                                               |
+        b_strides (Strides): strides for `b` tensor                                         |
+                                                                                            |
+    Returns:                                                                                |
+    -------                                                                                 |
+        None : Fills in `out`                                                               |
+                                                                                            |
+    """                                                                                     |
+    a_batch_stride = a_strides[0] if a_shape[0] > 1 else 0                                  |
+    b_batch_stride = b_strides[0] if b_shape[0] > 1 else 0                                  |
+                                                                                            |
+    # Get the dimensions                                                                    |
+    batch_size = out_shape[0]                                                               |
+    rows = out_shape[1]                                                                     |
+    cols = out_shape[2]                                                                     |
+    reduce_dim = a_shape[2]                                                                 |
+                                                                                            |
+    # Parallelize the outer loops                                                           |
+    for batch in prange(batch_size):--------------------------------------------------------| #13
+        for i in prange(rows):--------------------------------------------------------------| #12
+            for j in range(cols):                                                           |
+                # Calculate output position                                                 |
+                out_pos = (                                                                 |
+                    batch * out_strides[0] + i * out_strides[1] + j * out_strides[2]        |
+                )                                                                           |
+                                                                                            |
+                # Initialize accumulator                                                    |
+                acc = 0.0                                                                   |
+                                                                                            |
+                # Inner reduction loop                                                      |
+                for k in range(reduce_dim):                                                 |
+                    # Calculate positions in a and b tensors                                |
+                    a_pos = batch * a_batch_stride + i * a_strides[1] + k * a_strides[2]    |
+                    b_pos = batch * b_batch_stride + k * b_strides[1] + j * b_strides[2]    |
+                    # Multiply and accumulate                                               |
+                    acc += a_storage[a_pos] * b_storage[b_pos]                              |
+                                                                                            |
+                # Store final result                                                        |
+                out[out_pos] = acc                                                          |
 --------------------------------- Fusing loops ---------------------------------
 Attempting fusion of parallel loops (combines loops with similar properties)...
 Following the attempted fusion of parallel for-loops there are 2 parallel for-
@@ -454,6 +448,46 @@ part of the larger parallel loop (#13).
 Allocation hoisting:
 No allocation hoisting found
 None
+
+Task 3.4
+
+Timing:
+/usr/local/lib/python3.12/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 2 will likely result in GPU under-utilization due to low occupancy.
+  warn(NumbaPerformanceWarning(msg))
+/usr/local/lib/python3.12/dist-packages/numba/cuda/cudadrv/devicearray.py:888: NumbaPerformanceWarning: Host array used in CUDA kernel will incur copy overhead to/from device.
+  warn(NumbaPerformanceWarning(msg))
+Running size 64
+/usr/local/lib/python3.12/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 8 will likely result in GPU under-utilization due to low occupancy.
+  warn(NumbaPerformanceWarning(msg))
+{'fast': np.float64(0.0033391316731770835), 'gpu': np.float64(0.00573118527730306)}
+Running size 128
+/usr/local/lib/python3.12/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 32 will likely result in GPU under-utilization due to low occupancy.
+  warn(NumbaPerformanceWarning(msg))
+{'fast': np.float64(0.013896624247233072), 'gpu': np.float64(0.012654542922973633)}
+Running size 256
+{'fast': np.float64(0.09136096636454265), 'gpu': np.float64(0.0444338321685791)}
+Running size 512
+{'fast': np.float64(1.2162829240163167), 'gpu': np.float64(0.23198946317036948)}
+Running size 1024
+{'fast': np.float64(7.672040144602458), 'gpu': np.float64(0.8695640563964844)}
+
+Timing summary
+Size: 64
+    fast: 0.00334
+    gpu: 0.00573
+Size: 128
+    fast: 0.01390
+    gpu: 0.01265
+Size: 256
+    fast: 0.09136
+    gpu: 0.04443
+Size: 512
+    fast: 1.21628
+    gpu: 0.23199
+Size: 1024
+    fast: 7.67204
+    gpu: 0.86956
+<img src="output.png">
 
 CPU
 split:!cd $DIR; PYTHONPATH=/content/$DIR python3.12 project/run_fast_tensor.py --BACKEND cpu --HIDDEN 100 --DATASET split --RATE 0.05
@@ -866,43 +900,7 @@ Epoch  490  loss  0.002325076386502473 correct 50
 Time per epoch: 0.2097 seconds
 
 GPU
-Timing:
-/usr/local/lib/python3.12/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 2 will likely result in GPU under-utilization due to low occupancy.
-  warn(NumbaPerformanceWarning(msg))
-/usr/local/lib/python3.12/dist-packages/numba/cuda/cudadrv/devicearray.py:888: NumbaPerformanceWarning: Host array used in CUDA kernel will incur copy overhead to/from device.
-  warn(NumbaPerformanceWarning(msg))
-Running size 64
-/usr/local/lib/python3.12/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 8 will likely result in GPU under-utilization due to low occupancy.
-  warn(NumbaPerformanceWarning(msg))
-{'fast': np.float64(0.0033391316731770835), 'gpu': np.float64(0.00573118527730306)}
-Running size 128
-/usr/local/lib/python3.12/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 32 will likely result in GPU under-utilization due to low occupancy.
-  warn(NumbaPerformanceWarning(msg))
-{'fast': np.float64(0.013896624247233072), 'gpu': np.float64(0.012654542922973633)}
-Running size 256
-{'fast': np.float64(0.09136096636454265), 'gpu': np.float64(0.0444338321685791)}
-Running size 512
-{'fast': np.float64(1.2162829240163167), 'gpu': np.float64(0.23198946317036948)}
-Running size 1024
-{'fast': np.float64(7.672040144602458), 'gpu': np.float64(0.8695640563964844)}
 
-Timing summary
-Size: 64
-    fast: 0.00334
-    gpu: 0.00573
-Size: 128
-    fast: 0.01390
-    gpu: 0.01265
-Size: 256
-    fast: 0.09136
-    gpu: 0.04443
-Size: 512
-    fast: 1.21628
-    gpu: 0.23199
-Size: 1024
-    fast: 7.67204
-    gpu: 0.86956
-<img src="output.png">
 
 split:!cd $DIR; PYTHONPATH=/content/$DIR python3.12 project/run_fast_tensor.py --BACKEND gpu --HIDDEN 100 --DATASET split --RATE 0.05
 /usr/local/lib/python3.12/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 1 will likely result in GPU under-utilization due to low occupancy.
