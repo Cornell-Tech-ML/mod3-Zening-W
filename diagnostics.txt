@@ -1,31 +1,31 @@
 (.venv) PS C:\Users\NING0\mle\mod3-Zening-W> python project/parallel_check.py
 MAP
- 
+
 ================================================================================
- Parallel Accelerator Optimizing:  Function tensor_map.<locals>._map, 
-C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (163)  
+ Parallel Accelerator Optimizing:  Function tensor_map.<locals>._map,
+C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (163)
 ================================================================================
 
 
-Parallel loop listing for  Function tensor_map.<locals>._map, C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (163) 
+Parallel loop listing for  Function tensor_map.<locals>._map, C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (163)
 -----------------------------------------------------------------------------------------------|loop #ID
-    def _map(                                                                                  | 
-        out: Storage,                                                                          | 
-        out_shape: Shape,                                                                      | 
-        out_strides: Strides,                                                                  | 
-        in_storage: Storage,                                                                   | 
-        in_shape: Shape,                                                                       | 
-        in_strides: Strides,                                                                   | 
-    ) -> None:                                                                                 | 
-        # TODO: Implement for Task 3.1.                                                        | 
-        if np.array_equal(out_shape, in_shape) and np.array_equal(out_strides, in_strides):    | 
+    def _map(                                                                                  |
+        out: Storage,                                                                          |
+        out_shape: Shape,                                                                      |
+        out_strides: Strides,                                                                  |
+        in_storage: Storage,                                                                   |
+        in_shape: Shape,                                                                       |
+        in_strides: Strides,                                                                   |
+    ) -> None:                                                                                 |
+        # TODO: Implement for Task 3.1.                                                        |
+        if np.array_equal(out_shape, in_shape) and np.array_equal(out_strides, in_strides):    |
             for i in prange(len(out)):---------------------------------------------------------| #2
-                out[i] = fn(in_storage[i])                                                     | 
-            return                                                                             | 
-        # Calculate the total size of the tensor                                               | 
-        size = len(out)                                                                        | 
-                                                                                               | 
-        # Parallelize the main loop using prange                                               | 
+                out[i] = fn(in_storage[i])                                                     |
+            return                                                                             |
+        # Calculate the total size of the tensor                                               |
+        size = len(out)                                                                        |
+                                                                                               |
+        # Parallelize the main loop using prange                                               |
         for i in prange(size):-----------------------------------------------------------------| #3
             # Convert linear index i to tensor index                                           |
             out_index = np.zeros(MAX_DIMS, np.int32)-------------------------------------------| #0
@@ -90,7 +90,7 @@ and reused inside the loop):
     - numpy.empty() is used for the allocation.
 None
 ZIP
- 
+
 ================================================================================
  Parallel Accelerator Optimizing:  Function tensor_zip.<locals>._zip,
 C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (222)
@@ -201,7 +201,7 @@ and reused inside the loop):
     - numpy.empty() is used for the allocation.
 None
 REDUCE
- 
+
 ================================================================================
  Parallel Accelerator Optimizing:  Function tensor_reduce.<locals>._reduce,
 C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (289)
@@ -292,7 +292,7 @@ the parallel loop labelled #11 (it will be performed before the loop is executed
     - numpy.empty() is used for the allocation.
 None
 MATRIX MULTIPLY
- 
+
 ================================================================================
  Parallel Accelerator Optimizing:  Function _tensor_matrix_multiply,
 C:\Users\NING0\mle\mod3-Zening-W\minitorch\fast_ops.py (326)
@@ -831,7 +831,7 @@ Epoch  490  loss  0.002325076386502473 correct 50
 Time per epoch: 0.2097 seconds
 
 GPU
-Timing: 
+Timing:
 /usr/local/lib/python3.12/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 2 will likely result in GPU under-utilization due to low occupancy.
   warn(NumbaPerformanceWarning(msg))
 /usr/local/lib/python3.12/dist-packages/numba/cuda/cudadrv/devicearray.py:888: NumbaPerformanceWarning: Host array used in CUDA kernel will incur copy overhead to/from device.
