@@ -343,35 +343,40 @@ def tensor_reduce(
         cache = cuda.shared.array(BLOCK_DIM, numba.float64)
         out_index = cuda.local.array(MAX_DIMS, numba.int32)
         out_pos = cuda.blockIdx.x
-        pos = cuda.threadIdx.x
+        local_i = cuda.threadIdx.x
 
-        # Check if the current output position is within the valid range
+        # TODO: Implement for Task 3.3.
+        # make sure we don't go out of bounds
         if out_pos < out_size:
-            # Initialize the cache with the reduce_value
-            cache[pos] = reduce_value
-            
-            # Convert the output position to an index in the output shape
+            # Calculate the partial index in `out_shape`
             to_index(out_pos, out_shape, out_index)
-            
-            # Update the output index for the dimension we are reducing
-            out_index[reduce_dim] = out_index[reduce_dim] * BLOCK_DIM + pos
-            
-            # Check if the calculated index is within the bounds of the input tensor
-            if out_index[reduce_dim] < a_shape[reduce_dim]:
-                cache[pos] = a_storage[index_to_position(out_index, a_strides)]
-                cuda.syncthreads()
-                
-                # Perform reduction in a tree-like fashion
-                stride = BLOCK_DIM // 2
-                while stride > 0:
-                    # Only the first half of the threads will perform the addition
-                    if pos < stride:
-                        cache[pos] += cache[pos + stride]
-                    # Synchronize again to ensure all additions are complete
-                    cuda.syncthreads()
-                    stride //= 2
-                if pos == 0:
-                    out[cuda.blockIdx.x] = cache[0]
+
+            # Copy values into cache along reduce dim
+            num_elements_to_reduce = a_shape[reduce_dim]
+            if local_i < num_elements_to_reduce:
+                # Set reduce_dim index to i for position in a_storage
+                out_index[reduce_dim] = local_i
+                a_pos = index_to_position(
+                    out_index, a_strides
+                )  # can make even more efficient by directly calculating
+                # Load element into cache at position `pos`
+                cache[local_i] = a_storage[a_pos]
+            else:
+                cache[local_i] = reduce_value  # Handle out-of-bounds
+
+            cuda.syncthreads()
+
+            offset = 1
+            # Perform reduction in shared memory
+            while offset < BLOCK_DIM:
+                if local_i % (2 * offset) == 0 and local_i + offset < BLOCK_DIM:
+                    cache[local_i] = fn(cache[local_i], cache[local_i + offset])
+                offset *= 2  # Double the offset
+                cuda.syncthreads()  # Ensure all threads have completed the addition
+
+            # Write the result for this block to the output
+            if local_i == 0:
+                out[out_pos] = cache[local_i]
 
     return jit(_reduce)  # type: ignore
 

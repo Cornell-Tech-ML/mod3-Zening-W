@@ -421,7 +421,7 @@ No allocation hoisting found
 None
 
 CPU
-split:
+split:!cd $DIR; PYTHONPATH=/content/$DIR python3.12 project/run_fast_tensor.py --BACKEND cpu --HIDDEN 100 --DATASET split --RATE 0.05
 Epoch  0  loss  4.878329131670176 correct 36
 Time per epoch: 18.5425 seconds
 Epoch  10  loss  4.969713111535567 correct 41
@@ -523,7 +523,7 @@ Time per epoch: 0.0883 seconds
 Epoch  490  loss  0.2799052019461051 correct 50
 Time per epoch: 0.0867 seconds
 
-xor:
+xor:!cd $DIR; PYTHONPATH=/content/$DIR python3.12 project/run_fast_tensor.py --BACKEND cpu --HIDDEN 100 --DATASET xor --RATE 0.05
 Epoch  0  loss  6.513251457590509 correct 34
 Time per epoch: 17.8970 seconds
 Epoch  10  loss  4.57599454741809 correct 42
@@ -625,7 +625,7 @@ Time per epoch: 0.0873 seconds
 Epoch  490  loss  0.09378669451428258 correct 50
 Time per epoch: 0.0878 seconds
 
-simple:
+simple:!cd $DIR; PYTHONPATH=/content/$DIR python3.12 project/run_fast_tensor.py --BACKEND cpu --HIDDEN 100 --DATASET xor --RATE 0.05
 Epoch  0  loss  4.428984805260548 correct 45
 Time per epoch: 18.2173 seconds
 Epoch  10  loss  2.0441568953066005 correct 49
@@ -727,8 +727,149 @@ Time per epoch: 0.0882 seconds
 Epoch  490  loss  0.1187228459224633 correct 50
 Time per epoch: 0.0885 seconds
 
+simple(hidden:200):!cd $DIR; PYTHONPATH=/content/$DIR python3.12 project/run_fast_tensor.py --BACKEND cpu --HIDDEN 200 --DATASET simple --RATE 0.05
+
+Epoch  0  loss  13.378427795355663 correct 39
+Time per epoch: 18.8212 seconds
+Epoch  10  loss  1.2241603510924541 correct 48
+Time per epoch: 0.2128 seconds
+Epoch  20  loss  0.5479489587203872 correct 49
+Time per epoch: 0.2106 seconds
+Epoch  30  loss  1.043008489165908 correct 49
+Time per epoch: 0.2129 seconds
+Epoch  40  loss  0.5988881028882412 correct 49
+Time per epoch: 0.3692 seconds
+Epoch  50  loss  1.0832641248329373 correct 50
+Time per epoch: 0.2100 seconds
+Epoch  60  loss  0.3419947251834221 correct 50
+Time per epoch: 0.2137 seconds
+Epoch  70  loss  0.6295002676541859 correct 50
+Time per epoch: 0.2239 seconds
+Epoch  80  loss  0.12413377520516683 correct 50
+Time per epoch: 0.2233 seconds
+Epoch  90  loss  0.6538991357284261 correct 50
+Time per epoch: 0.2204 seconds
+Epoch  100  loss  0.07977421793405708 correct 50
+Time per epoch: 0.2179 seconds
+Epoch  110  loss  0.48184558436855546 correct 50
+Time per epoch: 0.2205 seconds
+Epoch  120  loss  0.1441209684567622 correct 50
+Time per epoch: 0.2087 seconds
+Epoch  130  loss  0.031913751708437535 correct 50
+Time per epoch: 0.2077 seconds
+Epoch  140  loss  0.07903376783060988 correct 50
+Time per epoch: 0.2084 seconds
+Epoch  150  loss  0.3855274163541233 correct 50
+Time per epoch: 0.2807 seconds
+Epoch  160  loss  0.5858537708350334 correct 50
+Time per epoch: 0.2079 seconds
+Epoch  170  loss  0.226528785769537 correct 50
+Time per epoch: 0.2118 seconds
+Epoch  180  loss  0.14934141333076187 correct 50
+Time per epoch: 0.2081 seconds
+Epoch  190  loss  0.09560304911723407 correct 50
+Time per epoch: 0.2105 seconds
+Epoch  200  loss  0.11228473780037415 correct 50
+Time per epoch: 0.2218 seconds
+Epoch  210  loss  0.11202406550712742 correct 50
+Time per epoch: 0.4285 seconds
+Epoch  220  loss  0.4573733564582923 correct 50
+Time per epoch: 0.2093 seconds
+Epoch  230  loss  0.017413955440035028 correct 50
+Time per epoch: 0.2035 seconds
+Epoch  240  loss  0.005793270508921413 correct 50
+Time per epoch: 0.2090 seconds
+Epoch  250  loss  0.33277474477102414 correct 50
+Time per epoch: 0.2145 seconds
+Epoch  260  loss  0.20992307165585825 correct 50
+Time per epoch: 0.2174 seconds
+Epoch  270  loss  0.008880593890791889 correct 50
+Time per epoch: 0.3776 seconds
+Epoch  280  loss  0.08206027070446015 correct 50
+Time per epoch: 0.2162 seconds
+Epoch  290  loss  0.019915850706346508 correct 50
+Time per epoch: 0.2046 seconds
+Epoch  300  loss  0.023137125199489465 correct 50
+Time per epoch: 0.2075 seconds
+Epoch  310  loss  0.1348108621324314 correct 50
+Time per epoch: 0.2071 seconds
+Epoch  320  loss  0.27125605558426363 correct 50
+Time per epoch: 0.2104 seconds
+Epoch  330  loss  0.11801872876142804 correct 50
+Time per epoch: 0.2248 seconds
+Epoch  340  loss  0.010636333818004952 correct 50
+Time per epoch: 0.2063 seconds
+Epoch  350  loss  0.22768237128450336 correct 50
+Time per epoch: 0.2068 seconds
+Epoch  360  loss  0.015355474373462063 correct 50
+Time per epoch: 0.2059 seconds
+Epoch  370  loss  0.05578410823657868 correct 50
+Time per epoch: 0.2059 seconds
+Epoch  380  loss  0.07317828228021125 correct 50
+Time per epoch: 0.2187 seconds
+Epoch  390  loss  0.23304589070925574 correct 50
+Time per epoch: 0.2036 seconds
+Epoch  400  loss  0.053035128855042114 correct 50
+Time per epoch: 0.2127 seconds
+Epoch  410  loss  0.20205556256231344 correct 50
+Time per epoch: 0.2177 seconds
+Epoch  420  loss  0.17545228536820168 correct 50
+Time per epoch: 0.2182 seconds
+Epoch  430  loss  0.020990077336178272 correct 50
+Time per epoch: 0.2358 seconds
+Epoch  440  loss  0.061405294657612686 correct 50
+Time per epoch: 0.4636 seconds
+Epoch  450  loss  0.00873978681710921 correct 50
+Time per epoch: 0.2045 seconds
+Epoch  460  loss  0.21927001484001232 correct 50
+Time per epoch: 0.2067 seconds
+Epoch  470  loss  0.16585820532194093 correct 50
+Time per epoch: 0.2074 seconds
+Epoch  480  loss  0.009936040573097719 correct 50
+Time per epoch: 0.2198 seconds
+Epoch  490  loss  0.002325076386502473 correct 50
+Time per epoch: 0.2097 seconds
+
 GPU
-split:
+Timing: 
+/usr/local/lib/python3.12/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 2 will likely result in GPU under-utilization due to low occupancy.
+  warn(NumbaPerformanceWarning(msg))
+/usr/local/lib/python3.12/dist-packages/numba/cuda/cudadrv/devicearray.py:888: NumbaPerformanceWarning: Host array used in CUDA kernel will incur copy overhead to/from device.
+  warn(NumbaPerformanceWarning(msg))
+Running size 64
+/usr/local/lib/python3.12/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 8 will likely result in GPU under-utilization due to low occupancy.
+  warn(NumbaPerformanceWarning(msg))
+{'fast': np.float64(0.0033391316731770835), 'gpu': np.float64(0.00573118527730306)}
+Running size 128
+/usr/local/lib/python3.12/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 32 will likely result in GPU under-utilization due to low occupancy.
+  warn(NumbaPerformanceWarning(msg))
+{'fast': np.float64(0.013896624247233072), 'gpu': np.float64(0.012654542922973633)}
+Running size 256
+{'fast': np.float64(0.09136096636454265), 'gpu': np.float64(0.0444338321685791)}
+Running size 512
+{'fast': np.float64(1.2162829240163167), 'gpu': np.float64(0.23198946317036948)}
+Running size 1024
+{'fast': np.float64(7.672040144602458), 'gpu': np.float64(0.8695640563964844)}
+
+Timing summary
+Size: 64
+    fast: 0.00334
+    gpu: 0.00573
+Size: 128
+    fast: 0.01390
+    gpu: 0.01265
+Size: 256
+    fast: 0.09136
+    gpu: 0.04443
+Size: 512
+    fast: 1.21628
+    gpu: 0.23199
+Size: 1024
+    fast: 7.67204
+    gpu: 0.86956
+
+
+split:!cd $DIR; PYTHONPATH=/content/$DIR python3.12 project/run_fast_tensor.py --BACKEND gpu --HIDDEN 100 --DATASET split --RATE 0.05
 /usr/local/lib/python3.12/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 1 will likely result in GPU under-utilization due to low occupancy.
   warn(NumbaPerformanceWarning(msg))
 /usr/local/lib/python3.12/dist-packages/numba/cuda/cudadrv/devicearray.py:888: NumbaPerformanceWarning: Host array used in CUDA kernel will incur copy overhead to/from device.
@@ -908,7 +1049,7 @@ Time per epoch: 1.1375 seconds
 Epoch  490  loss  0.1464523724148547 correct 48
 Time per epoch: 1.1283 seconds
 
-xor:
+xor:!cd $DIR; PYTHONPATH=/content/$DIR python3.12 project/run_fast_tensor.py --BACKEND gpu --HIDDEN 100 --DATASET xor --RATE 0.05
 /usr/local/lib/python3.12/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 1 will likely result in GPU under-utilization due to low occupancy.
   warn(NumbaPerformanceWarning(msg))
 /usr/local/lib/python3.12/dist-packages/numba/cuda/cudadrv/devicearray.py:888: NumbaPerformanceWarning: Host array used in CUDA kernel will incur copy overhead to/from device.
@@ -1088,7 +1229,7 @@ Time per epoch: 1.4504 seconds
 Epoch  490  loss  0.34354254366813963 correct 50
 Time per epoch: 1.6458 seconds
 
-simple:
+simple:!cd $DIR; PYTHONPATH=/content/$DIR python3.12 project/run_fast_tensor.py --BACKEND gpu --HIDDEN 100 --DATASET simple --RATE 0.05
 /usr/local/lib/python3.12/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 1 will likely result in GPU under-utilization due to low occupancy.
   warn(NumbaPerformanceWarning(msg))
 /usr/local/lib/python3.12/dist-packages/numba/cuda/cudadrv/devicearray.py:888: NumbaPerformanceWarning: Host array used in CUDA kernel will incur copy overhead to/from device.
@@ -1267,3 +1408,5 @@ Epoch  480  loss  0.002650815682272568 correct 50
 Time per epoch: 1.1975 seconds
 Epoch  490  loss  0.20480919007454348 correct 50
 Time per epoch: 1.1440 seconds
+
+simple(hidden:200):
