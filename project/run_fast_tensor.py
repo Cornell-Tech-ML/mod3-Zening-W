@@ -3,6 +3,7 @@ import random
 import numba
 
 import minitorch
+import time
 
 datasets = minitorch.datasets
 FastTensorBackend = minitorch.TensorBackend(minitorch.FastOps)
@@ -29,8 +30,10 @@ class Network(minitorch.Module):
         self.layer3 = Linear(hidden, 1, backend)
 
     def forward(self, x):
-        # TODO: Implement for Task 3.5.
-        raise NotImplementedError("Need to implement for Task 3.5")
+        y = self.layer1.forward(x).relu()
+        z = self.layer2.forward(y).relu()
+        end = self.layer3.forward(z).sigmoid()
+        return end
 
 
 class Linear(minitorch.Module):
@@ -43,8 +46,7 @@ class Linear(minitorch.Module):
         self.out_size = out_size
 
     def forward(self, x):
-        # TODO: Implement for Task 3.5.
-        raise NotImplementedError("Need to implement for Task 3.5")
+        return x @ self.weights.value + self.bias.value
 
 
 class FastTrain:
@@ -66,6 +68,7 @@ class FastTrain:
         losses = []
 
         for epoch in range(max_epochs):
+            start_time = time.time()  # Start timing
             total_loss = 0.0
             c = list(zip(data.X, data.y))
             random.shuffle(c)
@@ -96,6 +99,8 @@ class FastTrain:
                 y2 = minitorch.tensor(data.y)
                 correct = int(((out.detach() > 0.5) == y2).sum()[0])
                 log_fn(epoch, total_loss, correct, losses)
+                epoch_time = time.time() - start_time  # Calculate elapsed time
+                print(f"Time per epoch: {epoch_time:.4f} seconds")  # Print timing
 
 
 if __name__ == "__main__":
