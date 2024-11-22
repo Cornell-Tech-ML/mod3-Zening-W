@@ -33,6 +33,7 @@ The files that will be synced are:
 
 # Task 3.1&3.2:
 
+```console
 (.venv) PS C:\Users\NING0\mle\mod3-Zening-W> python project/parallel_check.py
 MAP
 (.venv) PS C:\Users\NING0\mle\mod3-Zening-W> python project/parallel_check.py
@@ -448,10 +449,12 @@ part of the larger parallel loop (#13).
 Allocation hoisting:
 No allocation hoisting found
 None
+```
 
 # Task 3.4
 
 Timing:
+```console
 /usr/local/lib/python3.12/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 2 will likely result in GPU under-utilization due to low occupancy.
   warn(NumbaPerformanceWarning(msg))
 /usr/local/lib/python3.12/dist-packages/numba/cuda/cudadrv/devicearray.py:888: NumbaPerformanceWarning: Host array used in CUDA kernel will incur copy overhead to/from device.
@@ -487,11 +490,17 @@ Size: 512
 Size: 1024
     fast: 7.67204
     gpu: 0.86956
+```
+
 <img src="output.png">
 
 # Task 3.5
 ## CPU
-split:!cd $DIR; PYTHONPATH=/content/$DIR python3.12 project/run_fast_tensor.py --BACKEND cpu --HIDDEN 100 --DATASET split --RATE 0.05
+### split:
+```bash
+!cd $DIR; PYTHONPATH=/content/$DIR python3.12 project/run_fast_tensor.py --BACKEND cpu --HIDDEN 100 --DATASET split --RATE 0.05
+```
+```console
 Epoch  0  loss  4.878329131670176 correct 36
 Time per epoch: 18.5425 seconds
 Epoch  10  loss  4.969713111535567 correct 41
@@ -592,8 +601,14 @@ Epoch  480  loss  0.040453219591767245 correct 50
 Time per epoch: 0.0883 seconds
 Epoch  490  loss  0.2799052019461051 correct 50
 Time per epoch: 0.0867 seconds
+```
 
-xor:!cd $DIR; PYTHONPATH=/content/$DIR python3.12 project/run_fast_tensor.py --BACKEND cpu --HIDDEN 100 --DATASET xor --RATE 0.05
+### xor:
+```bash
+!cd $DIR; PYTHONPATH=/content/$DIR python3.12 project/run_fast_tensor.py
+```
+```console
+--BACKEND cpu --HIDDEN 100 --DATASET xor --RATE 0.05
 Epoch  0  loss  6.513251457590509 correct 34
 Time per epoch: 17.8970 seconds
 Epoch  10  loss  4.57599454741809 correct 42
@@ -694,8 +709,13 @@ Epoch  480  loss  0.33552848823250436 correct 50
 Time per epoch: 0.0873 seconds
 Epoch  490  loss  0.09378669451428258 correct 50
 Time per epoch: 0.0878 seconds
+```
 
-simple:!cd $DIR; PYTHONPATH=/content/$DIR python3.12 project/run_fast_tensor.py --BACKEND cpu --HIDDEN 100 --DATASET xor --RATE 0.05
+### simple:
+```bash
+!cd $DIR; PYTHONPATH=/content/$DIR python3.12 project/run_fast_tensor.py --BACKEND cpu --HIDDEN 100 --DATASET xor --RATE 0.05
+```
+```console
 Epoch  0  loss  4.428984805260548 correct 45
 Time per epoch: 18.2173 seconds
 Epoch  10  loss  2.0441568953066005 correct 49
@@ -796,9 +816,12 @@ Epoch  480  loss  0.10100676396930779 correct 50
 Time per epoch: 0.0882 seconds
 Epoch  490  loss  0.1187228459224633 correct 50
 Time per epoch: 0.0885 seconds
-
-simple(hidden:200):!cd $DIR; PYTHONPATH=/content/$DIR python3.12 project/run_fast_tensor.py --BACKEND cpu --HIDDEN 200 --DATASET simple --RATE 0.05
-
+```
+### simple(hidden:200):
+```bash
+!cd $DIR; PYTHONPATH=/content/$DIR python3.12 project/run_fast_tensor.py --BACKEND cpu --HIDDEN 200 --DATASET simple --RATE 0.05
+```
+```console
 Epoch  0  loss  13.378427795355663 correct 39
 Time per epoch: 18.8212 seconds
 Epoch  10  loss  1.2241603510924541 correct 48
@@ -899,10 +922,14 @@ Epoch  480  loss  0.009936040573097719 correct 50
 Time per epoch: 0.2198 seconds
 Epoch  490  loss  0.002325076386502473 correct 50
 Time per epoch: 0.2097 seconds
-
+```
 ## GPU
 
-split:!cd $DIR; PYTHONPATH=/content/$DIR python3.12 project/run_fast_tensor.py --BACKEND gpu --HIDDEN 100 --DATASET split --RATE 0.05
+### split:
+```bash
+!cd $DIR; PYTHONPATH=/content/$DIR python3.12 project/run_fast_tensor.py --BACKEND gpu --HIDDEN 100 --DATASET split --RATE 0.05
+```
+```console
 /usr/local/lib/python3.12/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 1 will likely result in GPU under-utilization due to low occupancy.
   warn(NumbaPerformanceWarning(msg))
 /usr/local/lib/python3.12/dist-packages/numba/cuda/cudadrv/devicearray.py:888: NumbaPerformanceWarning: Host array used in CUDA kernel will incur copy overhead to/from device.
@@ -1081,8 +1108,13 @@ Epoch  480  loss  1.2646756580140293 correct 50
 Time per epoch: 1.1375 seconds
 Epoch  490  loss  0.1464523724148547 correct 48
 Time per epoch: 1.1283 seconds
+```
 
-xor:!cd $DIR; PYTHONPATH=/content/$DIR python3.12 project/run_fast_tensor.py --BACKEND gpu --HIDDEN 100 --DATASET xor --RATE 0.05
+### xor:
+```bash
+!cd $DIR; PYTHONPATH=/content/$DIR python3.12 project/run_fast_tensor.py --BACKEND gpu --HIDDEN 100 --DATASET xor --RATE 0.05
+```
+```console
 /usr/local/lib/python3.12/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 1 will likely result in GPU under-utilization due to low occupancy.
   warn(NumbaPerformanceWarning(msg))
 /usr/local/lib/python3.12/dist-packages/numba/cuda/cudadrv/devicearray.py:888: NumbaPerformanceWarning: Host array used in CUDA kernel will incur copy overhead to/from device.
@@ -1261,8 +1293,13 @@ Epoch  480  loss  0.08661131087168525 correct 50
 Time per epoch: 1.4504 seconds
 Epoch  490  loss  0.34354254366813963 correct 50
 Time per epoch: 1.6458 seconds
+```
 
-simple:!cd $DIR; PYTHONPATH=/content/$DIR python3.12 project/run_fast_tensor.py --BACKEND gpu --HIDDEN 100 --DATASET simple --RATE 0.05
+### simple:
+```bash
+!cd $DIR; PYTHONPATH=/content/$DIR python3.12 project/run_fast_tensor.py --BACKEND gpu --HIDDEN 100 --DATASET simple --RATE 0.05
+```
+```console
 /usr/local/lib/python3.12/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 1 will likely result in GPU under-utilization due to low occupancy.
   warn(NumbaPerformanceWarning(msg))
 /usr/local/lib/python3.12/dist-packages/numba/cuda/cudadrv/devicearray.py:888: NumbaPerformanceWarning: Host array used in CUDA kernel will incur copy overhead to/from device.
@@ -1441,8 +1478,13 @@ Epoch  480  loss  0.002650815682272568 correct 50
 Time per epoch: 1.1975 seconds
 Epoch  490  loss  0.20480919007454348 correct 50
 Time per epoch: 1.1440 seconds
+```
 
-simple(hidden:200):!cd $DIR; PYTHONPATH=/content/$DIR python3.12 project/run_fast_tensor.py --BACKEND gpu --HIDDEN 200 --DATASET simple --RATE 0.05
+### simple(hidden:200):
+```bash
+!cd $DIR; PYTHONPATH=/content/$DIR python3.12 project/run_fast_tensor.py --BACKEND gpu --HIDDEN 200 --DATASET simple --RATE 0.05
+```
+```console
 /usr/local/lib/python3.12/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 1 will likely result in GPU under-utilization due to low occupancy.
   warn(NumbaPerformanceWarning(msg))
 /usr/local/lib/python3.12/dist-packages/numba/cuda/cudadrv/devicearray.py:888: NumbaPerformanceWarning: Host array used in CUDA kernel will incur copy overhead to/from device.
@@ -1621,4 +1663,4 @@ Epoch  480  loss  0.1018631698638325 correct 50
 Time per epoch: 1.2743 seconds
 Epoch  490  loss  8.950214837719787e-05 correct 50
 Time per epoch: 1.2557 seconds
-
+```
